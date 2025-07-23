@@ -18,29 +18,15 @@ namespace MusicBattle
         {
             if (_listButtons.Count > 0)
             {
-
+                var randomIndex = Random.Range(0, _listButtons.Count);
+                var nextArrow = _listButtons[randomIndex];
+                return new NextArrow
+                {
+                    Direction = nextArrow.GetComponent<UIArrowButton>().Direction,
+                    ScreenPositionX = nextArrow.transform.position.x
+                };
             }
             return null;
-        }
-
-        public void OnUpArrowPressed()
-        {
-            GameManager.Instance.OnArrowPressed?.Invoke(ArrowDirection.Up);
-        }
-
-        public void OnDownArrowPressed()
-        {
-            GameManager.Instance.OnArrowPressed?.Invoke(ArrowDirection.Down);
-        }
-
-        public void OnLeftArrowPressed()
-        {
-            GameManager.Instance.OnArrowPressed?.Invoke(ArrowDirection.Left);
-        }
-
-        public void OnRightArrowPressed()
-        {
-            GameManager.Instance.OnArrowPressed?.Invoke(ArrowDirection.Right);
         }
     }
 }

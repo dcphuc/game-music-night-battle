@@ -9,10 +9,13 @@ namespace MusicBattle
     {
         [SerializeField] private ObjectPool _arrowPool = null;
         [SerializeField] private UIButtonArrowPanel _arrowPanel = null;
+        [SerializeField] private ArrowCollection _arrowCollection = null;
+
+        private Queue<ArrowDirection> _arrowQueue = new Queue<ArrowDirection>();
 
         public Action<ArrowDirection> OnArrowPressed;
-
         public static GameManager Instance { get; private set; }
+        public ArrowCollection ArrowCollection => _arrowCollection;
 
         private void Awake()
         {
@@ -34,15 +37,15 @@ namespace MusicBattle
 
         private void CreateArrowDrop()
         {
-            GameObject arrowDrop = _arrowPool.GetObject();
-            if (arrowDrop != null)
+            var nextArrow = _arrowPanel.GetNextArrow();
+            if (nextArrow != null)
             {
-                UIArrowDrop uiArrowDrop = arrowDrop.GetComponent<UIArrowDrop>();
-                if (uiArrowDrop != null)
-                {
-                    uiArrowDrop.Setup();
-                }
+                _arrowQueue.Enqueue(nextArrow.Direction);
             }
+            ArrowDirection direction = _arrowQueue.Dequeue();
+            GameObject arrowObject = _arrowPool.GetObject();
+            arrowObject.SetActive(true);
+            OnArrowPressed?.Invoke(direction);
         }
 
         private void HandleArrowPressed(ArrowDirection direction)

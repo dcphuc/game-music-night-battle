@@ -284,6 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _arrowPool: {fileID: 0}
   _arrowPanel: {fileID: 1028205332}
+  _arrowCollection: {fileID: 11400000, guid: bf19de9ab9f2f4f478c93dbb4502f744, type: 2}
 --- !u!1 &153702345
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,6 +1178,7 @@ GameObject:
   - component: {fileID: 964519507}
   - component: {fileID: 964519506}
   - component: {fileID: 964519505}
+  - component: {fileID: 964519508}
   m_Layer: 5
   m_Name: Up
   m_TagString: Untagged
@@ -1248,9 +1250,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1028205332}
-        m_TargetAssemblyTypeName: MusicBattle.UIButtonArrowPanel, Assembly-CSharp
-        m_MethodName: OnUpArrowPressed
+      - m_Target: {fileID: 964519508}
+        m_TargetAssemblyTypeName: MusicBattle.UIArrowButton, Assembly-CSharp
+        m_MethodName: OnArrowPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1298,6 +1300,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 964519503}
   m_CullTransparentMesh: 1
+--- !u!114 &964519508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964519503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d624799652b4b94e97629a21e1fced3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _direction: 2
 --- !u!1 &970161742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1310,6 +1325,7 @@ GameObject:
   - component: {fileID: 970161746}
   - component: {fileID: 970161745}
   - component: {fileID: 970161744}
+  - component: {fileID: 970161747}
   m_Layer: 5
   m_Name: Down
   m_TagString: Untagged
@@ -1381,9 +1397,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1028205332}
-        m_TargetAssemblyTypeName: MusicBattle.UIButtonArrowPanel, Assembly-CSharp
-        m_MethodName: OnDownArrowPressed
+      - m_Target: {fileID: 970161747}
+        m_TargetAssemblyTypeName: MusicBattle.UIArrowButton, Assembly-CSharp
+        m_MethodName: OnArrowPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1431,6 +1447,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 970161742}
   m_CullTransparentMesh: 1
+--- !u!114 &970161747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970161742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d624799652b4b94e97629a21e1fced3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _direction: 3
 --- !u!1 &1028205329
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,6 +1667,7 @@ GameObject:
   - component: {fileID: 1383067200}
   - component: {fileID: 1383067202}
   - component: {fileID: 1383067201}
+  - component: {fileID: 1383067203}
   m_Layer: 5
   m_Name: ArrowDrop
   m_TagString: Untagged
@@ -1703,6 +1733,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383067199}
   m_CullTransparentMesh: 1
+--- !u!114 &1383067203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383067199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d44737b4c3efd8409fa89d6b5c2de05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _imgArrow: {fileID: 1383067201}
+  _imgArrowSpriteUp: {fileID: 0}
+  _imgArrowSpriteLeft: {fileID: 0}
+  _imgArrowSpriteRight: {fileID: 0}
+  _imgArrowSpriteDown: {fileID: 0}
 --- !u!1 &1424864891
 GameObject:
   m_ObjectHideFlags: 0
@@ -1960,6 +2007,7 @@ GameObject:
   - component: {fileID: 1799986245}
   - component: {fileID: 1799986244}
   - component: {fileID: 1799986243}
+  - component: {fileID: 1799986246}
   m_Layer: 5
   m_Name: Right
   m_TagString: Untagged
@@ -2031,9 +2079,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1028205332}
-        m_TargetAssemblyTypeName: MusicBattle.UIButtonArrowPanel, Assembly-CSharp
-        m_MethodName: OnRightArrowPressed
+      - m_Target: {fileID: 1799986246}
+        m_TargetAssemblyTypeName: MusicBattle.UIArrowButton, Assembly-CSharp
+        m_MethodName: OnArrowPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2081,6 +2129,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1799986241}
   m_CullTransparentMesh: 1
+--- !u!114 &1799986246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799986241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d624799652b4b94e97629a21e1fced3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _direction: 1
 --- !u!1 &1853722783
 GameObject:
   m_ObjectHideFlags: 0
@@ -2319,6 +2380,7 @@ GameObject:
   - component: {fileID: 2117898065}
   - component: {fileID: 2117898064}
   - component: {fileID: 2117898063}
+  - component: {fileID: 2117898066}
   m_Layer: 5
   m_Name: Left
   m_TagString: Untagged
@@ -2390,9 +2452,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1028205332}
-        m_TargetAssemblyTypeName: MusicBattle.UIButtonArrowPanel, Assembly-CSharp
-        m_MethodName: OnLeftArrowPressed
+      - m_Target: {fileID: 2117898066}
+        m_TargetAssemblyTypeName: MusicBattle.UIArrowButton, Assembly-CSharp
+        m_MethodName: OnArrowPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2440,3 +2502,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2117898061}
   m_CullTransparentMesh: 1
+--- !u!114 &2117898066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117898061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d624799652b4b94e97629a21e1fced3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _direction: 0

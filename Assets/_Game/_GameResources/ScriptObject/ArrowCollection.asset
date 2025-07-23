@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b0fef1e01026674b9c6d371befb9015, type: 3}
+  m_Name: ArrowCollection
+  m_EditorClassIdentifier: 
+  _greyArrows:
+  - Direction: 0
+    ArrowSprite: {fileID: 21300000, guid: 9e7956dfc0e073f49995dd133053f8a5, type: 3}
+  - Direction: 1
+    ArrowSprite: {fileID: 21300000, guid: 3cd9f32c60f46054388371e9ea765063, type: 3}
+  - Direction: 2
+    ArrowSprite: {fileID: 21300000, guid: 38340be5142a49b4eb262ea206c24846, type: 3}
+  - Direction: 3
+    ArrowSprite: {fileID: 21300000, guid: 144dff43581a5fa4d9fcc4672441cfd3, type: 3}
+  _colorArrows:
+  - Direction: 0
+    ArrowSprite: {fileID: 21300000, guid: 19634e4c4a669ef44be11fe42224ca15, type: 3}
+  - Direction: 1
+    ArrowSprite: {fileID: 21300000, guid: d7cd0c3d2cfc5cd4c99f8ad2ad3b7d33, type: 3}
+  - Direction: 2
+    ArrowSprite: {fileID: 21300000, guid: 5f2b286e359727c40909d680eb149b3a, type: 3}
+  - Direction: 3
+    ArrowSprite: {fileID: 21300000, guid: 793db221118602f40baf353a6536fba7, type: 3}
