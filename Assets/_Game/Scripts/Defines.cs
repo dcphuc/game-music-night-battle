@@ -12,10 +12,13 @@ namespace MusicBattle
         Down
     }
 
-    public class ArrowDropInfo
+    public enum CollectType
     {
-        public ArrowDirection Direction;
-        public GameObject ArrowObject;
+        None,
+        Missed,
+        Bad = 400,
+        Sick = 300,
+        Good = 200
     }
 }
 

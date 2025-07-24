@@ -38,7 +38,7 @@ namespace MusicBattle
             _img.sprite = _countdownSprites[0];
             yield return new WaitForSeconds(1);
             _img.gameObject.SetActive(false);
-            GameManager.Instance.UpdatePhase(GamePhase.WaitingForPlayer);
+            GameManager.Instance.UpdatePhase(GamePhase.Opponent);
         }
 
     }

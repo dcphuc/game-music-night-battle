@@ -9,7 +9,7 @@ namespace MusicBattle
     {
         Start,
         Countdown,
-        WaitingForPlayer,
+        Opponent,
         Playing,
         End
     }
@@ -20,9 +20,14 @@ namespace MusicBattle
         [SerializeField] private UIButtonArrowPanel _arrowButtonPanel = null;
         [SerializeField] private ArrowCollection _arrowCollection = null;
 
-        private Queue<ArrowDropInfo> _arrowQueue = new Queue<ArrowDropInfo>();
+        private Queue<GameObject> _leftArrowQueue = new Queue<GameObject>();
+        private Queue<GameObject> _rightArrowQueue = new Queue<GameObject>();
+        private Queue<GameObject> _upArrowQueue = new Queue<GameObject>();
+        private Queue<GameObject> _downArrowQueue = new Queue<GameObject>();
         private float _dropTimer = 0f;
         private float _dropInterval = 1f;
+        private int _opponentArrowCount = 10;
+
         private GamePhase _state = GamePhase.Start;
 
         public Action<ArrowDirection> OnArrowPressed;
@@ -59,27 +64,54 @@ namespace MusicBattle
             _dropTimer += Time.deltaTime;
             if (_dropTimer > _dropInterval)
             {
-                CreateArrowDrop();
+                DropArrow();
                 _dropTimer = 0f;
             }
         }
 
         #region  Core Logic
-        private void CreateArrowDrop()
+        private void DropArrow()
         {
-            var nextArrow = _arrowButtonPanel.GetNextArrow();
-            if (nextArrow != null)
+            if (_state == GamePhase.Opponent)
+            {
+                CreateArrowDrop(hasColor: false);
+                _opponentArrowCount--;
+                if (_opponentArrowCount <= 0)
+                {
+                    UpdatePhase(GamePhase.Playing);
+                }
+            }
+            else if (_state == GamePhase.Playing)
+            {
+                CreateArrowDrop(hasColor: true);
+            }
+        }
+
+        private void CreateArrowDrop(bool hasColor = false)
+        {
+            var arrow = _arrowButtonPanel.GetNextArrow();
+            if (arrow != null)
             {
                 GameObject arrowObject = _arrowPool.GetObject();
                 var uiArrowDrop = arrowObject.GetComponent<UIArrowDrop>();
                 if (uiArrowDrop != null)
                 {
-                    uiArrowDrop.Setup(nextArrow.Direction, nextArrow.TargetPosition, hasColor: true);
-                    _arrowQueue.Enqueue(new ArrowDropInfo
+                    uiArrowDrop.Setup(arrow.Direction, arrow.TargetPosition, hasColor: hasColor);
+                    switch (arrow.Direction)
                     {
-                        Direction = nextArrow.Direction,
-                        ArrowObject = arrowObject
-                    });
+                        case ArrowDirection.Left:
+                            _leftArrowQueue.Enqueue(arrowObject);
+                            break;
+                        case ArrowDirection.Right:
+                            _rightArrowQueue.Enqueue(arrowObject);
+                            break;
+                        case ArrowDirection.Up:
+                            _upArrowQueue.Enqueue(arrowObject);
+                            break;
+                        case ArrowDirection.Down:
+                            _downArrowQueue.Enqueue(arrowObject);
+                            break;
+                    }
                 }
                 else
                     Debug.LogError("UIArrowDrop component not found on the arrow object.");
@@ -88,22 +120,90 @@ namespace MusicBattle
 
         private void HandleArrowPressed(ArrowDirection direction)
         {
-            if (_arrowQueue.Count > 0)
+            if (_state != GamePhase.Playing)
+                return;
+
+            switch (direction)
             {
-                ArrowDropInfo firstItem = _arrowQueue.Dequeue();
-                if (firstItem.Direction == direction)
-                {
-                    Debug.Log($"Correct arrow pressed: {direction}");
-                    firstItem.ArrowObject.SetActive(false); // Deactivate or return to pool
-                }
-                else
-                {
-                    Debug.LogWarning($"Incorrect arrow pressed: {direction}, expected: {firstItem.Direction}");
-                }
+                case ArrowDirection.Left:
+                    if (_leftArrowQueue.Count > 0)
+                    {
+                        var arrowDrop = _leftArrowQueue.Peek();
+                        var type = arrowDrop.GetComponent<UIArrowDrop>().CheckCollectAvailable();
+                        if (type != CollectType.None && type != CollectType.Missed)
+                        {
+                            DequeueArrow(direction);
+                        }
+                    }
+                    break;
+                case ArrowDirection.Right:
+                    if (_rightArrowQueue.Count > 0)
+                    {
+                        var arrowDrop = _rightArrowQueue.Peek();
+                        var type = arrowDrop.GetComponent<UIArrowDrop>().CheckCollectAvailable();
+                        if (type != CollectType.None && type != CollectType.Missed)
+                        {
+                            DequeueArrow(direction);
+                        }
+                    }
+                    break;
+                case ArrowDirection.Up:
+                    if (_upArrowQueue.Count > 0)
+                    {
+                        var arrowDrop = _upArrowQueue.Peek();
+                        var type = arrowDrop.GetComponent<UIArrowDrop>().CheckCollectAvailable();
+                        if (type != CollectType.None && type != CollectType.Missed)
+                        {
+                            DequeueArrow(direction);
+                        }
+                    }
+                    break;
+                case ArrowDirection.Down:
+                    if (_downArrowQueue.Count > 0)
+                    {
+                        var arrowDrop = _downArrowQueue.Peek();
+                        var type = arrowDrop.GetComponent<UIArrowDrop>().CheckCollectAvailable();
+                        if (type != CollectType.None && type != CollectType.Missed)
+                        {
+                            DequeueArrow(direction);
+                        }
+                    }
+                    break;
             }
-            else
+        }
+
+        public void DequeueArrow(ArrowDirection direction)
+        {
+            switch (direction)
             {
-                Debug.LogWarning("No arrows in queue to match the pressed direction.");
+                case ArrowDirection.Left:
+                    if (_leftArrowQueue.Count > 0)
+                    {
+                        var arrowObject = _leftArrowQueue.Dequeue();
+                        arrowObject.GetComponent<PooledObject>().Pool.ReturnObject(arrowObject);
+                    }
+                    break;
+                case ArrowDirection.Right:
+                    if (_rightArrowQueue.Count > 0)
+                    {
+                        var arrowObject = _rightArrowQueue.Dequeue();
+                        arrowObject.GetComponent<PooledObject>().Pool.ReturnObject(arrowObject);
+                    }
+                    break;
+                case ArrowDirection.Up:
+                    if (_upArrowQueue.Count > 0)
+                    {
+                        var arrowObject = _upArrowQueue.Dequeue();
+                        arrowObject.GetComponent<PooledObject>().Pool.ReturnObject(arrowObject);
+                    }
+                    break;
+                case ArrowDirection.Down:
+                    if (_downArrowQueue.Count > 0)
+                    {
+                        var arrowObject = _downArrowQueue.Dequeue();
+                        arrowObject.GetComponent<PooledObject>().Pool.ReturnObject(arrowObject);
+                    }
+                    break;
             }
         }
         #endregion
@@ -115,11 +215,12 @@ namespace MusicBattle
             {
                 case GamePhase.Start:
                     UIManager.Instance.ShowStartPhase();
+                    _opponentArrowCount = 10;
                     break;
                 case GamePhase.Countdown:
                     UIManager.Instance.ShowCountdown();
                     break;
-                case GamePhase.WaitingForPlayer:
+                case GamePhase.Opponent:
                     UIManager.Instance.ShowGamePlay();
                     break;
                 case GamePhase.Playing:

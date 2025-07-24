@@ -24,7 +24,7 @@ namespace MusicBattle
 
         public void OnStartBattle()
         {
-            GameManager.Instance.UpdatePhase(GamePhase.Countdown);
+            GameManager.Instance.UpdatePhase(GamePhase.Playing);
         }
     }
 }
