@@ -4,6 +4,13 @@ using UnityEngine;
 
 namespace MusicBattle
 {
+
+    public static class Defines
+    {
+        public static int MaxHealth = 20;
+        public static int OpponentArrowCount = 3;
+    }
+
     public enum ArrowDirection
     {
         Left,
@@ -19,6 +26,13 @@ namespace MusicBattle
         Bad = 400,
         Sick = 300,
         Good = 200
+    }
+
+    public enum AlertType
+    {
+        Bad,
+        Sick,
+        Good
     }
 }
 

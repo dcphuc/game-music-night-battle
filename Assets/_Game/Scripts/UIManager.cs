@@ -26,28 +26,26 @@ namespace MusicBattle
             }
         }
 
-        private void InactivateAll()
+        public void ShowStartPhase(bool isTryAgain = false)
         {
             _goGamePlay.SetActive(false);
-            _goStartPhase.SetActive(false);
             _goCountdown.gameObject.SetActive(false);
-        }
-        public void ShowStartPhase()
-        {
-            InactivateAll();
             _goStartPhase.SetActive(true);
+            _goStartPhase.GetComponent<UIStartPhase>().Setup(isTryAgain);
         }
 
         public void ShowGamePlay()
         {
-            InactivateAll();
+            _goStartPhase.SetActive(false);
+            _goCountdown.gameObject.SetActive(false);
             _goGamePlay.SetActive(true);
         }
 
         public void ShowCountdown()
         {
-            InactivateAll();
+            _goStartPhase.SetActive(false);
             _goCountdown.SetActive(true);
+            _goGamePlay.SetActive(true);
             _goCountdown.GetComponent<UICountdown>().StartCountdown();
         }
     }

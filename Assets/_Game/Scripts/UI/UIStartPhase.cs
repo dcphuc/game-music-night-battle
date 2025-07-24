@@ -18,13 +18,13 @@ namespace MusicBattle
 
         public void Setup(bool isTryAgain)
         {
-            _goBattle.SetActive(false);
-            _goTryAgain.SetActive(true);
+            _goBattle.SetActive(!isTryAgain);
+            _goTryAgain.SetActive(isTryAgain);
         }
 
         public void OnStartBattle()
         {
-            GameManager.Instance.UpdatePhase(GamePhase.Playing);
+            GameManager.Instance.UpdatePhase(GamePhase.Countdown);
         }
     }
 }

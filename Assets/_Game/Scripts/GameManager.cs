@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace MusicBattle
@@ -19,6 +20,10 @@ namespace MusicBattle
         [SerializeField] private ObjectPool _arrowPool = null;
         [SerializeField] private UIButtonArrowPanel _arrowButtonPanel = null;
         [SerializeField] private ArrowCollection _arrowCollection = null;
+        [SerializeField] private UIHealth _uiHealth = null;
+
+        [SerializeField] private Character _opponentCharacter = null;
+        [SerializeField] private Character _playerCharacter = null;
 
         private Queue<GameObject> _leftArrowQueue = new Queue<GameObject>();
         private Queue<GameObject> _rightArrowQueue = new Queue<GameObject>();
@@ -26,8 +31,8 @@ namespace MusicBattle
         private Queue<GameObject> _downArrowQueue = new Queue<GameObject>();
         private float _dropTimer = 0f;
         private float _dropInterval = 1f;
-        private int _opponentArrowCount = 10;
-
+        private int _opponentArrowCount = Defines.OpponentArrowCount;
+        private int _playerHealth = Defines.MaxHealth;
         private GamePhase _state = GamePhase.Start;
 
         public Action<ArrowDirection> OnArrowPressed;
@@ -70,12 +75,28 @@ namespace MusicBattle
         }
 
         #region  Core Logic
+        private void ResetGame()
+        {
+            _leftArrowQueue.Clear();
+            _rightArrowQueue.Clear();
+            _upArrowQueue.Clear();
+            _downArrowQueue.Clear();
+            _dropTimer = 0f;
+            _opponentArrowCount = Defines.OpponentArrowCount;
+            _playerHealth = Defines.MaxHealth;
+            _uiHealth.ResetHealth();
+            _opponentCharacter.ResetCharacter();
+            _playerCharacter.ResetCharacter();
+            _arrowPool.ReturnAll();
+        }
+
         private void DropArrow()
         {
             if (_state == GamePhase.Opponent)
             {
                 CreateArrowDrop(hasColor: false);
                 _opponentArrowCount--;
+                _opponentCharacter.ChangeCharacterSprite();
                 if (_opponentArrowCount <= 0)
                 {
                     UpdatePhase(GamePhase.Playing);
@@ -132,6 +153,7 @@ namespace MusicBattle
                         var type = arrowDrop.GetComponent<UIArrowDrop>().CheckCollectAvailable();
                         if (type != CollectType.None && type != CollectType.Missed)
                         {
+                            UpdateHealthPlayer(type);
                             DequeueArrow(direction);
                         }
                     }
@@ -143,6 +165,7 @@ namespace MusicBattle
                         var type = arrowDrop.GetComponent<UIArrowDrop>().CheckCollectAvailable();
                         if (type != CollectType.None && type != CollectType.Missed)
                         {
+                            UpdateHealthPlayer(type);
                             DequeueArrow(direction);
                         }
                     }
@@ -154,6 +177,7 @@ namespace MusicBattle
                         var type = arrowDrop.GetComponent<UIArrowDrop>().CheckCollectAvailable();
                         if (type != CollectType.None && type != CollectType.Missed)
                         {
+                            UpdateHealthPlayer(type);
                             DequeueArrow(direction);
                         }
                     }
@@ -165,11 +189,49 @@ namespace MusicBattle
                         var type = arrowDrop.GetComponent<UIArrowDrop>().CheckCollectAvailable();
                         if (type != CollectType.None && type != CollectType.Missed)
                         {
+                            UpdateHealthPlayer(type);
                             DequeueArrow(direction);
                         }
                     }
                     break;
             }
+        }
+
+        public void UpdateHealthPlayer(CollectType collectType)
+        {
+            switch (collectType)
+            {
+                case CollectType.Missed:
+                    OnPlayerHealthChange(-3);
+                    break;
+                case CollectType.Bad:
+                    UIAlertMessManager.Instance.ShowAlert(AlertType.Bad);
+                    OnPlayerHealthChange(0);
+                    break;
+                case CollectType.Sick:
+                    UIAlertMessManager.Instance.ShowAlert(AlertType.Sick);
+                    OnPlayerHealthChange(1);
+                    break;
+                case CollectType.Good:
+                    UIAlertMessManager.Instance.ShowAlert(AlertType.Good);
+                    OnPlayerHealthChange(2);
+                    break;
+            }
+        }
+
+        private void OnPlayerHealthChange(int amount)
+        {
+            if (_state != GamePhase.Playing)
+                return;
+            if (amount > 0)
+                _playerCharacter.ChangeCharacterSprite();
+            _playerHealth += amount;
+            _playerHealth = Mathf.Clamp(_playerHealth, 0, Defines.MaxHealth * 2);
+            _uiHealth.UpdateHealth(_playerHealth);
+            if (_playerHealth <= 0)
+                UpdatePhase(GamePhase.End);
+            else if (_playerHealth >= Defines.MaxHealth * 2)
+                UpdatePhase(GamePhase.End);
         }
 
         public void DequeueArrow(ArrowDirection direction)
@@ -215,7 +277,7 @@ namespace MusicBattle
             {
                 case GamePhase.Start:
                     UIManager.Instance.ShowStartPhase();
-                    _opponentArrowCount = 10;
+                    ResetGame();
                     break;
                 case GamePhase.Countdown:
                     UIManager.Instance.ShowCountdown();
@@ -227,7 +289,8 @@ namespace MusicBattle
                     UIManager.Instance.ShowGamePlay();
                     break;
                 case GamePhase.End:
-                    // Logic for ending the game
+                    UIManager.Instance.ShowStartPhase(true);
+                    ResetGame();
                     break;
             }
         }
