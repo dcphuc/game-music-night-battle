@@ -59,11 +59,10 @@ namespace MusicBattle
             {
                 _tweener.Kill();
             }
-            _tweener = _rectTransform.DOLocalMoveY(hasColor ? _targetPosY - 200f : _targetPosY, 2f).
+            _tweener = _rectTransform.DOLocalMoveY(hasColor ? _targetPosY - 200f : _targetPosY, 1.5f).
             SetEase(Ease.Linear).
             OnComplete(() =>
             {
-                Debug.Log($"Arrow dropped: {_arrowDirection}");
                 GameManager.Instance.DequeueArrow(_arrowDirection);
                 GameManager.Instance.UpdateHealthPlayer(collectType: CollectType.Missed);
             });

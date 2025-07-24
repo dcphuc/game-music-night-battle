@@ -31,14 +31,14 @@ namespace MusicBattle
             int timeLeft = _countdownSprites.Count;
             while (timeLeft > 0)
             {
-                yield return new WaitForSeconds(1);
                 _img.sprite = _countdownSprites[timeLeft - 1];
                 if (timeLeft > 1)
                     SoundPlayer.PlaySoundFx($"{timeLeft - 1}");
                 timeLeft--;
+                yield return new WaitForSeconds(1);
             }
-            yield return new WaitForSeconds(1);
             SoundPlayer.PlaySoundFx("Go");
+            yield return new WaitForSeconds(1);
             _img.sprite = _countdownSprites[0];
             GameManager.Instance.UpdatePhase(GamePhase.Opponent);
         }

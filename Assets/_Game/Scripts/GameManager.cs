@@ -30,7 +30,7 @@ namespace MusicBattle
         private Queue<GameObject> _upArrowQueue = new Queue<GameObject>();
         private Queue<GameObject> _downArrowQueue = new Queue<GameObject>();
         private float _dropTimer = 0f;
-        private float _dropInterval = 1f;
+        private float _dropInterval = 0.5f;
         private int _opponentArrowCount = Defines.OpponentArrowCount;
         private int _playerHealth = Defines.MaxHealth;
         private GamePhase _state = GamePhase.Start;

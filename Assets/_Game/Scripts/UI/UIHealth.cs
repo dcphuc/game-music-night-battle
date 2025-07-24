@@ -9,26 +9,20 @@ namespace MusicBattle
         [SerializeField] private RectTransform _rtOpponentHealth = null;
         [SerializeField] private RectTransform _rtPlayerHealth = null;
 
-        private RectTransform _rectTransform = null;
-
-        private void Awake()
-        {
-            _rectTransform = GetComponent<RectTransform>();
-        }
-
         public void ResetHealth()
         {
             _rtOpponentHealth.gameObject.SetActive(true);
             _rtPlayerHealth.gameObject.SetActive(true);
-            var width = _rectTransform.rect.width;
+            var width = GetComponent<RectTransform>().rect.width;
             _rtOpponentHealth.sizeDelta = new Vector2(width / 2, _rtOpponentHealth.sizeDelta.y);
             _rtPlayerHealth.sizeDelta = new Vector2(width / 2, _rtPlayerHealth.sizeDelta.y);
         }
 
         public void UpdateHealth(int playerHealth)
         {
-
-            var widthPerUnit = _rectTransform.rect.width / (Defines.MaxHealth * 2);
+            if (playerHealth < 3 || playerHealth > (Defines.MaxHealth * 2 - 3))
+                return;
+            var widthPerUnit = GetComponent<RectTransform>().rect.width / (Defines.MaxHealth * 2);
             _rtPlayerHealth.sizeDelta = new Vector2(widthPerUnit * playerHealth, _rtPlayerHealth.sizeDelta.y);
             _rtOpponentHealth.sizeDelta = new Vector2(widthPerUnit * (Defines.MaxHealth * 2 - playerHealth), _rtOpponentHealth.sizeDelta.y);
             if (playerHealth <= 0)

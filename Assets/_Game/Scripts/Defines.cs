@@ -8,7 +8,7 @@ namespace MusicBattle
     public static class Defines
     {
         public static int MaxHealth = 20;
-        public static int OpponentArrowCount = 3;
+        public static int OpponentArrowCount = 10;
     }
 
     public enum ArrowDirection
