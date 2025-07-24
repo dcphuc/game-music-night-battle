@@ -60,6 +60,7 @@ namespace MusicBattle
 
         private void Start()
         {
+            SoundPlayer.Initialize();
             OnArrowPressed += HandleArrowPressed;
             UpdatePhase(GamePhase.Start);
         }
@@ -289,6 +290,7 @@ namespace MusicBattle
                     UIManager.Instance.ShowGamePlay();
                     break;
                 case GamePhase.End:
+                    SoundPlayer.StopBGM("bgm");
                     UIManager.Instance.ShowStartPhase(true);
                     ResetGame();
                     break;

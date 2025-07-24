@@ -23,7 +23,6 @@ namespace MusicBattle
 
         public void ShowAlert(AlertType alertType)
         {
-            Debug.Log($"ShowAlert: {alertType}");
             var obj = _objectPool.GetObject();
             var alertItem = obj.GetComponent<UIAlertMessItem>();
             if (alertItem != null)
