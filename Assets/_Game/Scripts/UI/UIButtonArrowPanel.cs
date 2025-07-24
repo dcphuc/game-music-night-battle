@@ -7,7 +7,7 @@ namespace MusicBattle
     public class NextArrow
     {
         public ArrowDirection Direction;
-        public float ScreenPositionX;
+        public Vector3 TargetPosition;
     }
 
     public class UIButtonArrowPanel : MonoBehaviour
@@ -19,11 +19,12 @@ namespace MusicBattle
             if (_listButtons.Count > 0)
             {
                 var randomIndex = Random.Range(0, _listButtons.Count);
-                var nextArrow = _listButtons[randomIndex];
+                var nextArrow = _listButtons[randomIndex]?.GetComponent<UIArrowButton>();
+
                 return new NextArrow
                 {
-                    Direction = nextArrow.GetComponent<UIArrowButton>().Direction,
-                    ScreenPositionX = nextArrow.transform.position.x
+                    Direction = nextArrow.Direction,
+                    TargetPosition = nextArrow.GetPosition()
                 };
             }
             return null;

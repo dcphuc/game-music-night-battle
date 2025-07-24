@@ -12,6 +12,11 @@ namespace MusicBattle
         Down
     }
 
+    public class ArrowDropInfo
+    {
+        public ArrowDirection Direction;
+        public GameObject ArrowObject;
+    }
 }
 
 

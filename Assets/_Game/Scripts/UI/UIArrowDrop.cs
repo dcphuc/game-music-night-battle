@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,15 +10,9 @@ namespace MusicBattle
     {
         [SerializeField] private Image _imgArrow = null;
 
-        private RectTransform _rectTransform;
-
-        private void Awake()
+        public void Setup(ArrowDirection direction, Vector3 target, bool hasColor = false)
         {
-            _rectTransform = GetComponent<RectTransform>();
-        }
-
-        public void Setup(ArrowDirection direction, float screenPositionX, bool hasColor = false)
-        {
+            transform.localScale = Vector3.one;
             ArrowType arrowType = hasColor
                 ? GameManager.Instance.ArrowCollection.GetColorArrowByDirection(direction)
                 : GameManager.Instance.ArrowCollection.GetGreyArrowByDirection(direction);
@@ -31,13 +26,17 @@ namespace MusicBattle
                 Debug.LogWarning($"No arrow found for direction: {direction}");
             }
 
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                 UIManager.Instance.SafeArea,
+                target,
+                UIManager.Instance.UICamera,
+                out Vector2 localPoint
+            );
 
-        }
+            RectTransform rectTransform = GetComponent<RectTransform>();
+            rectTransform.anchoredPosition = new Vector2(localPoint.x, localPoint.y + Screen.height);
 
-        private void Update()
-        {
-
-            //_rectTransform.anchoredPosition = new Vector2(screenPositionX, _rectTransform.anchoredPosition.y);
+            rectTransform.DOLocalMoveY(localPoint.y, 3f);
         }
     }
 }
