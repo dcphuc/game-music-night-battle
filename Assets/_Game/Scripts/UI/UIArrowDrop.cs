@@ -53,7 +53,7 @@ namespace MusicBattle
                 out Vector2 localPoint
             );
             _targetPosY = localPoint.y;
-            _rectTransform.anchoredPosition = new Vector2(localPoint.x, localPoint.y + Screen.height);
+            _rectTransform.anchoredPosition = new Vector2(localPoint.x, localPoint.y + 1920f);
 
             if (_tweener != null && _tweener.IsActive())
             {
