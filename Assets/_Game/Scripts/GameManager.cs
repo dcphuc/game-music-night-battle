@@ -156,6 +156,7 @@ namespace MusicBattle
                         {
                             UpdateHealthPlayer(type);
                             DequeueArrow(direction);
+                            _arrowButtonPanel.PlayFXButton(direction);
                         }
                     }
                     break;
@@ -168,6 +169,7 @@ namespace MusicBattle
                         {
                             UpdateHealthPlayer(type);
                             DequeueArrow(direction);
+                            _arrowButtonPanel.PlayFXButton(direction);
                         }
                     }
                     break;
@@ -180,6 +182,7 @@ namespace MusicBattle
                         {
                             UpdateHealthPlayer(type);
                             DequeueArrow(direction);
+                            _arrowButtonPanel.PlayFXButton(direction);
                         }
                     }
                     break;
@@ -192,6 +195,7 @@ namespace MusicBattle
                         {
                             UpdateHealthPlayer(type);
                             DequeueArrow(direction);
+                            _arrowButtonPanel.PlayFXButton(direction);
                         }
                     }
                     break;

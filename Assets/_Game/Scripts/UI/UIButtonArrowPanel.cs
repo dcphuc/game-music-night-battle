@@ -29,6 +29,12 @@ namespace MusicBattle
             }
             return null;
         }
+
+        public void PlayFXButton(ArrowDirection direction)
+        {
+            var button = _listButtons.Find(b => b.GetComponent<UIArrowButton>().Direction == direction);
+            button?.GetComponent<UIArrowButton>().PlayImageEffect();
+        }
     }
 }
 

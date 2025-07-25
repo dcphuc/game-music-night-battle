@@ -18,7 +18,7 @@ MonoBehaviour:
   - Direction: 1
     ArrowSprite: {fileID: 21300000, guid: 3cd9f32c60f46054388371e9ea765063, type: 3}
   - Direction: 2
-    ArrowSprite: {fileID: 21300000, guid: 38340be5142a49b4eb262ea206c24846, type: 3}
+    ArrowSprite: {fileID: 21300000, guid: 8ec44a6a021ab9145a27ab92b904b497, type: 3}
   - Direction: 3
     ArrowSprite: {fileID: 21300000, guid: 144dff43581a5fa4d9fcc4672441cfd3, type: 3}
   _colorArrows:
