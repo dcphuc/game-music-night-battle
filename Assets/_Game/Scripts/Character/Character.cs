@@ -11,6 +11,17 @@ namespace MusicBattle
         [SerializeField] private Image _image = null;
 
         private int _currentSpriteIndex = 0;
+        private float _interval = 1f;
+        private bool _autoPlay;
+        public bool AutoPlay
+        {
+            get { return _autoPlay; }
+            set
+            {
+                _autoPlay = value;
+                ResetCharacter();
+            }
+        }
 
         private void Start()
         {
@@ -38,6 +49,19 @@ namespace MusicBattle
             _currentSpriteIndex = (_currentSpriteIndex + 1) % _sprites.Count;
             _image.sprite = _sprites[_currentSpriteIndex];
             _image.SetNativeSize();
+        }
+
+        private void Update()
+        {
+            if (_autoPlay)
+            {
+                _interval -= Time.deltaTime;
+                if (_interval <= 0f)
+                {
+                    ChangeCharacterSprite();
+                    _interval = 1f;
+                }
+            }
         }
     }
 }

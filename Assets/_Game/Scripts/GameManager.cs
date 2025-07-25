@@ -283,8 +283,13 @@ namespace MusicBattle
                 case GamePhase.Start:
                     UIManager.Instance.ShowStartPhase();
                     ResetGame();
+                    if (_isAttractMode)
+                    {
+                        PlayAttractMode();
+                    }
                     break;
                 case GamePhase.Countdown:
+                    _opponentCharacter.AutoPlay = false;
                     UIManager.Instance.ShowCountdown();
                     break;
                 case GamePhase.Opponent:
@@ -298,6 +303,16 @@ namespace MusicBattle
                     UIManager.Instance.ShowStartPhase(true);
                     ResetGame();
                     break;
+            }
+        }
+
+        // This is a demo function to simulate the attract mode
+        private bool _isAttractMode = true;
+        private void PlayAttractMode()
+        {
+            if (_isAttractMode)
+            {
+                _opponentCharacter.AutoPlay = true;
             }
         }
     }
